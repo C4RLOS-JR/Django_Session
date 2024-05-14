@@ -5,7 +5,8 @@ from hashlib import sha256
 from usuarios.models import Usuario
 
 def cadastro(request):
-  return render(request, 'cadastro.html')
+  status = request.GET.get('status')
+  return render(request, 'cadastro.html', {'status': status})
 
 def valida_cadastro(request):
   nome = request.POST.get('nome')
@@ -20,14 +21,29 @@ def valida_cadastro(request):
   if usuario_existe:
     return redirect('/auth/cadastro/?status=3')
     
-  senha = sha256(senha.encode()).hexdigest()
-  
   try:
-    novo_usuario = Usuario(nome=nome, email=email, senha=senha)
+    senha = sha256(senha.encode()).hexdigest()
+    novo_usuario = Usuario(nome = nome,
+                           email = email,
+                           senha=senha)
     novo_usuario.save()
     return redirect('/auth/cadastro/?status=0')
   except:
     return redirect('/auth/cadastro/?status=4')
   
 def login(request):
-  return render(request, 'login.html')
+  status = request.GET.get('status')
+  return render(request, 'login.html', {'status': status})
+
+def valida_login(request):
+  email = request.POST.get('email')
+  senha = request.POST.get('senha')
+  senha = sha256(senha.encode()).hexdigest()
+  usuario_existe = Usuario.objects.filter(email=email)
+
+  if not usuario_existe:
+    return redirect('/auth/login/?status=5')
+  if usuario_existe[0].senha != senha:
+    return redirect('/auth/login/?status=6')
+  
+  return HttpResponse('Login efetuado com sucesso!')

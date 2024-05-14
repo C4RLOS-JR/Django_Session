@@ -22,6 +22,40 @@
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+
+    <!-- Mensagens do sistema -->
+		<div class="container">
+      <br>
+			{% if status == '0' %}
+				<div align="center" class="alert alert-success" role="alert">
+					Usuário cadastrado com sucesso!
+				</div>
+			{% elif status == '1' %}
+				<div align="center" class="alert alert-danger" role="alert">
+					Os campos "Nome" e "Email" não podem ficar em branco!
+				</div>
+      {% elif status == '2' %}
+        <div align="center" class="alert alert-danger" role="alert">
+          A senha tem que ter no mínimo 6 caracteres!
+        </div>
+      {% elif status == '3' %}
+        <div align="center" class="alert alert-danger" role="alert">
+          Já existe um usuário cadastrado com esse Email!
+        </div>
+      {% elif status == '4' %}
+      <div align="center" class="alert alert-danger" role="alert">
+        Erro interno do sistema...tente novamente!
+      </div>
+      {% elif status == '5' %}
+				<div align="center" class="alert alert-danger" role="alert">
+					Email não cadastrado no sistema!
+				</div>
+      {% elif status == '6' %}
+				<div align="center" class="alert alert-danger" role="alert">
+					Senha inválida!
+				</div>
+			{% endif %}
 
   </body>
 </html>
