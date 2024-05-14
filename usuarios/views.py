@@ -25,7 +25,7 @@ def valida_cadastro(request):
     senha = sha256(senha.encode()).hexdigest()
     novo_usuario = Usuario(nome = nome,
                            email = email,
-                           senha=senha)
+                           senha = senha)
     novo_usuario.save()
     return redirect('/auth/cadastro/?status=0')
   except:
@@ -46,4 +46,9 @@ def valida_login(request):
   if usuario_existe[0].senha != senha:
     return redirect('/auth/login/?status=6')
   
-  return HttpResponse('Login efetuado com sucesso!')
+  request.session['logado'] = True
+  return redirect('/plataforma/home')
+
+def sair(request):
+  request.session['logado'] = None
+  return redirect('/auth/login')

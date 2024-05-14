@@ -16,6 +16,7 @@
 
     <nav class="navbar navbar-dark bg-dark">
       <a class="navbar-brand" href="#">Pythonando</a>
+      {% block 'navbar' %}{% endblock %}
     </nav>
 
     {% block 'conteudo' %}{% endblock %}
@@ -54,6 +55,10 @@
       {% elif status == '6' %}
 				<div align="center" class="alert alert-danger" role="alert">
 					Senha inválida!
+				</div>
+      {% elif status == '7' %}
+				<div align="center" class="alert alert-warning" role="alert">
+					Você precisa estar logado para acessar a plataforma!
 				</div>
 			{% endif %}
 
