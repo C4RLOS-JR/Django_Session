@@ -46,9 +46,10 @@ def valida_login(request):
   if usuario_existe[0].senha != senha:
     return redirect('/auth/login/?status=6')
   
-  request.session['logado'] = True
+  request.session['logado'] = True  # mostra se o usuário está logado.
+  request.session['usuario_id'] = usuario_existe[0].id  # mostra o ID do usuário que está logado.
   return redirect('/plataforma/home')
 
 def sair(request):
-  request.session['logado'] = None
+  request.session.flush()  # deleta a session por completo.
   return redirect('/auth/login')
