@@ -6,31 +6,28 @@
 
 {% block 'conteudo' %}
   
-  <div class="container">
-    <br>
-    <div class="row">
-      <div class="col-md-3"></div>
-      <div class="col-md">
-        <h1>Cadastre-se</h1>
-        <hr>
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md">
+      <h1>Cadastre-se</h1>
+      <hr>
+      <br>
+      <form method="POST" action="{% url 'valida_cadastro' %}"> {% csrf_token %}
+        <label>Nome</label>
+        <input name="nome" class="form-control" type="text" placeholder="Digite seu nome...">
         <br>
-        <form method="POST" action="{% url 'valida_cadastro' %}"> {% csrf_token %}
-          <label>Nome</label>
-          <input name="nome" class="form-control" type="text" placeholder="Digite seu nome...">
-          <br>
-          <label>Email</label>
-          <input name="email" class="form-control" type="email" placeholder="Digite seu email...">
-          <br>
-          <label>Senha</label>
-          <input name="senha" class="form-control" type="password" placeholder="Digite sua senha...">
-          <br>
-          <input class="btn btn-primary" type="submit" value="Enviar">
-        </form>
+        <label>Email</label>
+        <input name="email" class="form-control" type="email" placeholder="Digite seu email...">
         <br>
-        <a href="{% url 'login' %}">Fazer login</a>
-      </div>
-      <div class="col-md-3"></div>
+        <label>Senha</label>
+        <input name="senha" class="form-control" type="password" placeholder="Digite sua senha...">
+        <br>
+        <input class="btn btn-primary" type="submit" value="Enviar">
+      </form>
+      <br>
+      <a href="{% url 'login' %}">Fazer login</a>
     </div>
+    <div class="col-md-3"></div>
   </div>
 
 {% endblock %}
