@@ -7,8 +7,9 @@ from django.contrib import messages, auth
 from django.contrib.auth.models import User
 
 def cadastro(request):
-  status = request.GET.get('status')
-  return render(request, 'cadastro.html', {'status': status})
+  if request.user.is_authenticated: # se o usuário estiver logado, não tem acesso a página de cadastro
+    return redirect('/plataforma/home')
+  return render(request, 'cadastro.html')
 
 def valida_cadastro(request):
   nome = request.POST.get('nome')
@@ -43,8 +44,9 @@ def valida_cadastro(request):
     return redirect('/auth/cadastro/')
   
 def login(request):
-  status = request.GET.get('status')
-  return render(request, 'login.html', {'status': status})
+  if request.user.is_authenticated: # se o usuário estiver logado, não tem acesso a página de login
+    return redirect('/plataforma/home')
+  return render(request, 'login.html')
 
 def valida_login(request):
   nome = request.POST.get('nome')
@@ -56,14 +58,15 @@ def valida_login(request):
     messages.add_message(request, constants.ERROR, 'Usuário não cadastrado no sistema!')
     return redirect('/auth/login/')  
   
-  # request.session['logado'] = True  # mostra se o usuário está logado.
   # request.session['usuario_id'] = usuario_existe[0].id  # mostra o ID do usuário que está logado.
+  # request.session['logado'] = True  # mostra se o usuário está logado.
 
   auth.login(request, usuario_existe)
-  messages.add_message(request, constants.SUCCESS, f'Olá {usuario_existe.username}...Seja bem vindo(a)!')
-  return render(request, 'home.html')
+  return redirect('/plataforma/home')
 
 def sair(request):
-  #return HttpResponse(request.session.get_expiry_date())
+  # return HttpResponse(request.session.get_expiry_date())
   # request.session.flush()  # deleta a session por completo.
+  
+  auth.logout(request)
   return redirect('/auth/login')
