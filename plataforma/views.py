@@ -12,4 +12,4 @@ def home(request):
   #   messages.add_message(request, constants.WARNING, 'Você precisa estar logado para acessar a plataforma!')
   # return redirect('/auth/login/')
 
-  return render(request, 'home.html', {'logado': request.session['logado']})
+  return render(request, 'home.html')

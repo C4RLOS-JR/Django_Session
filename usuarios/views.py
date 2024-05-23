@@ -1,10 +1,10 @@
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from hashlib import sha256
-from .models import Usuario
 from django.contrib.messages import constants
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from .models import EnderecoUsuario
 
 def cadastro(request):
   if request.user.is_authenticated: # se o usuário estiver logado, não tem acesso a página de cadastro
@@ -15,6 +15,9 @@ def valida_cadastro(request):
   nome = request.POST.get('nome')
   email = request.POST.get('email')
   senha = request.POST.get('senha')
+  cep = request.POST.get('cep')
+  rua = request.POST.get('rua')
+  numero = request.POST.get('numero')
   # usuario_existe = Usuario.objects.filter(email=email)
 
   if len(nome.strip()) == 0 or len(email.strip()) == 0:
@@ -33,10 +36,17 @@ def valida_cadastro(request):
     
   try:
     # senha = sha256(senha.encode()).hexdigest()
-    novo_usuario = User.objects.create_user(username = nome,
-                                            email = email,
-                                            password = senha)
+    novo_usuario = User.objects.create_user(username=nome,
+                                            email=email,
+                                            password=senha)
     novo_usuario.save()
+
+    endereco_usuario = EnderecoUsuario(cep=cep,
+                                       rua=rua,
+                                       numero=numero,
+                                       usuario=novo_usuario)
+    endereco_usuario.save()
+    
     messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso!')
     return redirect('/auth/cadastro/')
   except:

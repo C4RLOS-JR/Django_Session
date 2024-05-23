@@ -1,9 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-class Usuario(models.Model):
-  nome = models.CharField(max_length=50)
-  email = models.EmailField()
-  senha = models.CharField(max_length=64)
+class EnderecoUsuario(models.Model):
+  cep = models.CharField(max_length=8, blank=True, null=True)
+  rua = models.CharField(max_length=100, blank=True, null=True)
+  numero = models.CharField(max_length=10, blank=True, null=True)
+  usuario = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
   def __str__(self):
-    return self.nome
+    return self.usuario.username
