@@ -1,4 +1,5 @@
 from django.contrib import admin
-from .models import EnderecoUsuario
+from django.contrib.auth.admin import UserAdmin
+from .models import Users
 
-admin.site.register(EnderecoUsuario)
+admin.site.register(Users, UserAdmin)

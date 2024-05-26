@@ -3,8 +3,7 @@ from django.http import HttpResponse
 from hashlib import sha256
 from django.contrib.messages import constants
 from django.contrib import messages, auth
-from django.contrib.auth.models import User
-from .models import EnderecoUsuario
+from .models import Users
 
 def cadastro(request):
   if request.user.is_authenticated: # se o usuário estiver logado, não tem acesso a página de cadastro
@@ -30,22 +29,19 @@ def valida_cadastro(request):
   #   messages.add_message(request, constants.WARNING, 'Já existe um usuário cadastrado com esse Email!')
   #   return redirect('/auth/cadastro/')
 
-  if User.objects.filter(email = email):
+  if Users.objects.filter(email = email):
     messages.add_message(request, constants.WARNING, 'Já existe um usuário cadastrado com esse Email!')
     return redirect('/auth/cadastro/')
     
   try:
     # senha = sha256(senha.encode()).hexdigest()
-    novo_usuario = User.objects.create_user(username=nome,
+    novo_usuario = Users.objects.create_user(username=nome,
                                             email=email,
-                                            password=senha)
+                                            password=senha,
+                                            cep=cep,
+                                            rua=rua,
+                                            numero=numero)
     novo_usuario.save()
-
-    endereco_usuario = EnderecoUsuario(cep=cep,
-                                       rua=rua,
-                                       numero=numero,
-                                       usuario=novo_usuario)
-    endereco_usuario.save()
     
     messages.add_message(request, constants.SUCCESS, 'Usuário cadastrado com sucesso!')
     return redirect('/auth/cadastro/')
