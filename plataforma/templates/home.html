@@ -1,8 +1,11 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block 'titulo' %}Home{% endblock %}
 
-{% block 'head' %}{% endblock %}
+{% block 'head' %}
+  <link rel="stylesheet" href="{% static 'css/plataforma.css' %}">
+{% endblock %}
 
 {% block 'conteudo' %}
  
@@ -10,7 +13,14 @@
 
     <h3>Você está logado no sistema!</h3>
     <br>
-    {{ form }}
+
+    <form action="#" method="POST"> {% csrf_token %}
+
+      {{ form.as_p }}
+
+      <input type="submit", class="btn btn-success">
+
+    </form>
 
   </div>
 
