@@ -14,10 +14,11 @@
     <h3>Você está logado no sistema!</h3>
     <br>
 
-    <form action="#" method="POST"> {% csrf_token %}
+    <form action="{% url 'home' %}" method="POST"> {% csrf_token %}
 
       {{ form.as_p }}
-
+      
+      <br>
       <input type="submit", class="btn btn-success">
 
     </form>
